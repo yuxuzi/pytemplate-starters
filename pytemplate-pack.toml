@@ -1,0 +1,5 @@
+contract = 1
+id = "pytemplate-starters"
+name = "Python starters"
+description = "Small, typed starting points for a Python script, a command-line app, or a library, ready for uv and coding agents."
+version = "1.0.0"

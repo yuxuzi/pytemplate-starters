@@ -1,0 +1,41 @@
+[project]
+name = "{{ project_name }}"
+version = "0.1.0"
+description = "{{ description }}"
+readme = "README.md"
+requires-python = ">={{ python_version }}"
+license = "{{ license }}"
+authors = [{ name = "{{ author }}", email = "{{ email }}" }]
+dependencies = []
+
+[project.scripts]
+{{ project_name }} = "{{ package_name }}.cli:main"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.11",
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+[build-system]
+requires = ["uv_build>=0.8,<0.13"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-root = ""
+module-name = "{{ package_name }}"
+
+[tool.ruff]
+line-length = 100
+target-version = "py{{ python_version | replace('.', '') }}"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "UP", "N", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "{{ python_version }}"
+strict = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

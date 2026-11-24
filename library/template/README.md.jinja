@@ -1,0 +1,34 @@
+# {{ project_name }}
+
+{{ description }}.
+
+## Use
+
+```python
+from {{ package_name }} import slugify
+
+slugify("Hello, World!")  # "hello-world"
+```
+
+Install from PyPI with `uv add {{ project_name }}` once it is published.
+
+## Develop
+
+```bash
+uv sync
+uv run ruff check .
+uv run ruff format --check .
+uv run mypy {{ package_name }} tests
+uv run pytest
+```
+
+## Layout
+
+- `{{ package_name }}/__init__.py`: the public API, listed in `__all__`.
+- `{{ package_name }}/core.py`: the implementation.
+- `{{ package_name }}/py.typed`: marks the package as typed for downstream checkers.
+- `tests/`: pytest, offline.
+- `CHANGELOG.md`: user-visible changes, kept under "Unreleased" until a release.
+- `.github/workflows/ci.yml`: the same checks on GitHub Actions.
+
+See `AGENTS.md` for the rules coding agents follow in this project.

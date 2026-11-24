@@ -1,0 +1,41 @@
+# AGENTS.md
+
+Guidance for coding agents working in `{{ project_name }}`. `CLAUDE.md` imports this file.
+
+## Project
+
+{{ description }}. A typed Python {{ python_version }}+ script with one `main()` entry point and no runtime dependencies. `uv` is the only required tool: never use pip, virtualenv activation, or make.
+
+## Commands
+
+- Install or refresh the environment: `uv sync`
+- Run the command: `uv run {{ project_name }} Ada`
+- Test: `uv run pytest`
+- Lint: `uv run ruff check .`
+- Format: `uv run ruff format .` (check only: `uv run ruff format --check .`)
+- Type-check: `uv run mypy {{ package_name }} tests`
+
+## Layout
+
+- `{{ package_name }}/core.py`: business logic, with no command-line or I/O concerns.
+- `{{ package_name }}/cli.py`: the `main()` entry point; a thin layer that calls `core`.
+- `tests/`: pytest suite, one module per source module.
+- `pyproject.toml`: metadata, the console script, and all tool configuration.
+
+## Conventions
+
+- Type-annotate everything; mypy runs in strict mode and must stay clean.
+- Use the standard library unless a dependency is clearly needed; add one with `uv add <package>`, never by editing `uv.lock`.
+- Keep logic in `core.py` so it can be tested without running the command.
+
+## Testing
+
+- Add or update tests with every behavior change, including the failure path.
+- Before reporting work as done, run the test, lint, format, and type-check commands above and report the real results.
+- Tests must not use the network or real credentials.
+
+## Safety
+
+- Never read, print, or commit `.env` files, tokens, or other secrets.
+- Do not change dependency version bounds without asking first.
+- Prefer small, reviewable diffs.

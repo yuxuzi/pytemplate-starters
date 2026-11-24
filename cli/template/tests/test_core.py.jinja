@@ -1,0 +1,19 @@
+"""Tests for the core functions."""
+
+import pytest
+
+from {{ package_name }}.core import greet, word_count
+
+
+def test_greet_names_the_person() -> None:
+    assert greet("Ada") == "Hello, Ada!"
+
+
+def test_greet_rejects_a_blank_name() -> None:
+    with pytest.raises(ValueError, match="must not be blank"):
+        greet("  ")
+
+
+def test_word_count_splits_on_whitespace() -> None:
+    assert word_count("one  two\tthree\n") == 3
+    assert word_count("") == 0

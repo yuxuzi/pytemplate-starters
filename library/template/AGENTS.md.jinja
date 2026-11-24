@@ -1,0 +1,43 @@
+# AGENTS.md
+
+Guidance for coding agents working in `{{ project_name }}`. `CLAUDE.md` imports this file.
+
+## Project
+
+{{ description }}, published to PyPI as `{{ project_name }}`, for Python {{ python_version }}+. The package is `{{ package_name }}`. `uv` is the only required tool: never use pip, virtualenv activation, or make.
+
+## Commands
+
+- Install or refresh the environment: `uv sync`
+- Test: `uv run pytest`
+- Lint: `uv run ruff check .`
+- Format: `uv run ruff format .` (check only: `uv run ruff format --check .`)
+- Type-check: `uv run mypy {{ package_name }} tests`
+
+## Layout
+
+- `{{ package_name }}/__init__.py`: the public API. Only names in `__all__` are public.
+- `{{ package_name }}/core.py`: the implementation, with no I/O.
+- `{{ package_name }}/py.typed`: keep it; it marks the package as typed.
+- `tests/`: pytest suite against the public API.
+- `CHANGELOG.md`: add an entry under "Unreleased" for every user-visible change.
+- `.github/workflows/ci.yml`: CI; do not change it without asking.
+
+## Conventions
+
+- Type-annotate everything, including tests; mypy runs in strict mode and must stay clean.
+- Keep the dependency list empty unless a dependency is clearly needed; add one with `uv add <package>`.
+- A change to `__all__` changes the public API: say so in the changelog and in your report.
+- Write a docstring for every public function, class, and module.
+
+## Testing
+
+- Add or update tests with every behavior change, including the failure path.
+- Before reporting work as done, run the test, lint, format, and type-check commands above and report the real results.
+- Tests must not use the network or real credentials.
+
+## Safety
+
+- Never read, print, or commit `.env` files, tokens, or other secrets.
+- Do not change CI workflows, release configuration, or dependency version bounds without asking first.
+- Prefer small, reviewable diffs.

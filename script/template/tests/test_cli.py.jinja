@@ -1,0 +1,22 @@
+"""Tests for the command-line entry point."""
+
+import pytest
+
+from {{ package_name }}.cli import main
+
+
+def test_main_prints_a_greeting(capsys: pytest.CaptureFixture[str]) -> None:
+    main(["Ada"])
+    assert capsys.readouterr().out == "Hello, Ada!\n"
+
+
+def test_main_defaults_to_world(capsys: pytest.CaptureFixture[str]) -> None:
+    main([])
+    assert capsys.readouterr().out == "Hello, World!\n"
+
+
+def test_main_exits_with_usage_error_for_a_blank_name(capsys: pytest.CaptureFixture[str]) -> None:
+    with pytest.raises(SystemExit) as excinfo:
+        main(["  "])
+    assert excinfo.value.code == 2
+    assert "must not be blank" in capsys.readouterr().err

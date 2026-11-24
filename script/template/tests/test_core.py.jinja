@@ -1,0 +1,18 @@
+"""Tests for the core greeting function."""
+
+import pytest
+
+from {{ package_name }}.core import greet
+
+
+def test_greet_names_the_person() -> None:
+    assert greet("Ada") == "Hello, Ada!"
+
+
+def test_greet_strips_surrounding_whitespace() -> None:
+    assert greet("  Ada  ") == "Hello, Ada!"
+
+
+def test_greet_rejects_a_blank_name() -> None:
+    with pytest.raises(ValueError, match="must not be blank"):
+        greet("   ")

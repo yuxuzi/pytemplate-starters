@@ -1,0 +1,17 @@
+contract = 1
+id = "cli"
+name = "Typer command-line app"
+description = "A Typer app with two subcommands, --version, plain output, and CliRunner tests."
+version = "1"
+kind = "cli"
+status = "stable"
+supported_python = ["3.11", "3.12", "3.13", "3.14", "3.15"]
+default_components = []
+optional_components = []
+dependencies = ["typer>=0.12"]
+questions = ["description", "author", "email", "python_version", "license"]
+lifecycle_commands = ["uv sync", "uv run ruff check .", "uv run ruff format --check .", "uv run mypy {package} tests", "uv run pytest"]
+security_posture = "No network access, secrets, or services are needed. The app reads only its command-line arguments. The checks do not scan dependencies or code for security problems."
+
+[dependency_groups]
+dev = ["mypy>=1.11", "pytest>=8.0", "ruff>=0.6"]

@@ -1,0 +1,59 @@
+"""Typer command-line interface: a thin layer that calls ``core``."""
+
+from importlib.metadata import version as package_version
+from typing import Annotated
+
+import typer
+
+from {{ package_name }}.core import greet, word_count
+
+app = typer.Typer(help="{{ description }}.", no_args_is_help=True, add_completion=False)
+
+
+def _show_version(value: bool) -> None:
+    if value:
+        typer.echo(package_version("{{ project_name }}"))
+        raise typer.Exit()
+
+
+@app.callback()
+def root(
+    version: Annotated[
+        bool,
+        typer.Option(
+            "--version",
+            callback=_show_version,
+            is_eager=True,
+            help="Show the version and exit.",
+        ),
+    ] = False,
+) -> None:
+    """Run a subcommand. Use --help to list them."""
+
+
+@app.command("greet")
+def greet_command(
+    name: Annotated[str, typer.Argument(help="Who to greet.")] = "World",
+) -> None:
+    """Print a greeting."""
+    try:
+        typer.echo(greet(name))
+    except ValueError as exc:
+        raise typer.BadParameter(str(exc)) from exc
+
+
+@app.command("count")
+def count_command(
+    text: Annotated[str, typer.Argument(help="Text to count words in.")],
+) -> None:
+    """Print the number of words in TEXT."""
+    typer.echo(word_count(text))
+
+
+def main() -> None:
+    """Run the command-line interface."""
+    app()
+
+
+if __name__ == "__main__":
+    main()

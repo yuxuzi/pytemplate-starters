@@ -1,0 +1,27 @@
+# {{ project_name }}
+
+{{ description }}.
+
+## Run
+
+```bash
+uv sync
+uv run {{ project_name }} Ada
+```
+
+## Check
+
+```bash
+uv run ruff check .
+uv run ruff format --check .
+uv run mypy {{ package_name }} tests
+uv run pytest
+```
+
+## Layout
+
+- `{{ package_name }}/core.py`: the logic and its tests live apart from the command line.
+- `{{ package_name }}/cli.py`: the `main()` entry point, declared in `[project.scripts]`.
+- `tests/`: pytest, offline.
+
+See `AGENTS.md` for the rules coding agents follow in this project.

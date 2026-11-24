@@ -1,0 +1,22 @@
+"""Command-line entry point: parses arguments and calls ``core``."""
+
+import argparse
+from collections.abc import Sequence
+
+from {{ package_name }}.core import greet
+
+
+def main(argv: Sequence[str] | None = None) -> None:
+    """Print a greeting for the name given on the command line."""
+    parser = argparse.ArgumentParser(prog="{{ project_name }}", description="Print a greeting.")
+    parser.add_argument("name", nargs="?", default="World", help="who to greet (default: World)")
+    args = parser.parse_args(argv)
+    try:
+        message = greet(args.name)
+    except ValueError as exc:
+        parser.error(str(exc))
+    print(message)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,3 @@
+_subdirectory: "{{ profile }}/template"
+_templates_suffix: .jinja
+--- !include questions.yml

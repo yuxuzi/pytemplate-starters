@@ -1,0 +1,30 @@
+# {{ project_name }}
+
+{{ description }}.
+
+## Run
+
+```bash
+uv sync
+uv run {{ project_name }} --help
+uv run {{ project_name }} greet Ada
+uv run {{ project_name }} count "one two three"
+uv run {{ project_name }} --version
+```
+
+## Check
+
+```bash
+uv run ruff check .
+uv run ruff format --check .
+uv run mypy {{ package_name }} tests
+uv run pytest
+```
+
+## Layout
+
+- `{{ package_name }}/core.py`: logic with no Typer or I/O concerns.
+- `{{ package_name }}/cli.py`: the Typer app; a thin layer over `core`.
+- `tests/`: pytest; the CLI is tested in process with `typer.testing.CliRunner`.
+
+See `AGENTS.md` for the rules coding agents follow in this project.

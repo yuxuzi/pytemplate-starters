@@ -1,0 +1,42 @@
+# AGENTS.md
+
+Guidance for coding agents working in `{{ project_name }}`. `CLAUDE.md` imports this file.
+
+## Project
+
+{{ description }}. A typed Python {{ python_version }}+ package (`{{ package_name }}`) with a Typer CLI and plain text output. `uv` is the only required tool: never use pip, virtualenv activation, or make.
+
+## Commands
+
+- Install or refresh the environment: `uv sync`
+- Run the CLI: `uv run {{ project_name }} --help`
+- Test: `uv run pytest`
+- Lint: `uv run ruff check .`
+- Format: `uv run ruff format .` (check only: `uv run ruff format --check .`)
+- Type-check: `uv run mypy {{ package_name }} tests`
+
+## Layout
+
+- `{{ package_name }}/core.py`: business logic, with no Typer or I/O concerns.
+- `{{ package_name }}/cli.py`: the Typer app and its subcommands; a thin layer that calls `core`.
+- `tests/`: pytest suite; CLI tests use `typer.testing.CliRunner`.
+- `pyproject.toml`: metadata, the console script, and all tool configuration.
+
+## Conventions
+
+- Type-annotate everything; mypy runs in strict mode and must stay clean.
+- Keep output plain text. Do not add a rich or colour dependency without asking.
+- Add a subcommand by writing its logic in `core.py` first, then a thin Typer command, then tests for both.
+- Add runtime dependencies with `uv add <package>`; never edit `uv.lock` by hand.
+
+## Testing
+
+- Add or update tests with every behavior change, including the failure path.
+- Before reporting work as done, run the test, lint, format, and type-check commands above and report the real results.
+- Tests must not use the network or real credentials.
+
+## Safety
+
+- Never read, print, or commit `.env` files, tokens, or other secrets.
+- Do not change dependency version bounds without asking first.
+- Prefer small, reviewable diffs.

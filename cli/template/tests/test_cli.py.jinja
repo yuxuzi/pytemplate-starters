@@ -1,0 +1,46 @@
+"""Tests for the command-line interface, run in process with CliRunner."""
+
+from importlib.metadata import version
+
+from typer.testing import CliRunner
+
+from {{ package_name }}.cli import app
+
+runner = CliRunner()
+
+
+def test_greet_defaults_to_world() -> None:
+    result = runner.invoke(app, ["greet"])
+    assert result.exit_code == 0
+    assert result.output == "Hello, World!\n"
+
+
+def test_greet_with_a_name() -> None:
+    result = runner.invoke(app, ["greet", "Ada"])
+    assert result.exit_code == 0
+    assert result.output == "Hello, Ada!\n"
+
+
+def test_greet_blank_name_is_a_usage_error() -> None:
+    result = runner.invoke(app, ["greet", " "])
+    assert result.exit_code == 2
+    assert "must not be blank" in result.output
+
+
+def test_count_prints_the_word_total() -> None:
+    result = runner.invoke(app, ["count", "one two three"])
+    assert result.exit_code == 0
+    assert result.output == "3\n"
+
+
+def test_version_flag_prints_the_package_version() -> None:
+    result = runner.invoke(app, ["--version"])
+    assert result.exit_code == 0
+    assert result.output.strip() == version("{{ project_name }}")
+
+
+def test_help_lists_both_subcommands() -> None:
+    result = runner.invoke(app, ["--help"])
+    assert result.exit_code == 0
+    assert "greet" in result.output
+    assert "count" in result.output
