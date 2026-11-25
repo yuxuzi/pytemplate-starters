@@ -43,8 +43,12 @@ The `library` profile adds `py.typed`, `CHANGELOG.md`, and `.github/workflows/ci
 ## Create a project
 
 ```bash
-uvx pytemplate-uv@latest create my-app -p cli --template gh:yuxuzi/pytemplate-starters --template-ref v1.0.0 -y
+uvx pytemplate-uv@latest create my-app -p cli -h yuxuzi/pytemplate-starters@v1.1.0 -y
 ```
+
+`-h` (`--hub`, pytemplate-uv 3.5 or later) reads the commit and digest that
+[pytemplate-hub](https://yuxuzi.github.io/pytemplate-hub/) checked for this tag, and refuses the pack if
+anything changed. For CI or offline use, copy the fully pinned command from the pack's listing there.
 
 Replace `cli` with `script` or `library`. The hub's listing page also gives `--template-commit` and
 `--template-digest` values, which refuse the pack if it has changed.

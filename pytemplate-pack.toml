@@ -2,4 +2,6 @@ contract = 1
 id = "pytemplate-starters"
 name = "Python starters"
 description = "Small, typed starting points for a Python script, a command-line app, or a library, ready for uv and coding agents."
-version = "1.0.0"
+version = "1.1.0"
+categories = ["cli", "library"]
+keywords = ["starter", "script", "cli", "library", "typer", "typed", "uv"]
